@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">LealFit</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Get registered now to save your evolution"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="password">Password\n</string>
+    <string name="email">Email</string>
+    <string name="sign_in_with_your_account">Sign in with your account</string>
+    <string name="by_continuing_you_agree_to_our_terms_of_use_and_privacy_policies">By continuing you agree to our Terms of Use and Privacy Policies.</string>
+    <string name="get_registered_now_to_save_your_evolution">Get registered now to save your evolution</string>
+    <string name="login">Login</string>
+    <string name="signup_screen">Signup Screen</string>
+    <string name="signup">Signup</string>
+    <string name="retype_your_password">Retype your password</string>
+    <string name="type_your_password">Type your password</string>
+    <string name="lealfit">LealFit</string>
+    <string name="workout_routine">Workout Routine</string>
+    <string name="i_already_have_an_account">I already have an account</string>
+    <string name="welcome_to_lealfit">WELCOME TO LEALFIT\n</string>
+    <string name="workouts">Workouts</string>
+</resources>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "775734076639",
+    "project_id": "lealfit-5812d",
+    "storage_bucket": "lealfit-5812d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775734076639:android:583d95d85e65d135e4356a",
+        "android_client_info": {
+          "package_name": "com.joaoflaviofreitas.lealfit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "775734076639-7vv2b7q9n7cbunle5f0ikse6pc6re8oi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.joaoflaviofreitas.lealfit",
+            "certificate_hash": "a04675b649fb3bad653c2ff4b72221b18f677d77"
+          }
+        },
+        {
+          "client_id": "775734076639-mb5rnsem2sh294pdhmdu6p0v2a667hp5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwTeGgnfZ6eZOiGL0DzTLW9A-wOZSE4eM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "775734076639-mb5rnsem2sh294pdhmdu6p0v2a667hp5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
