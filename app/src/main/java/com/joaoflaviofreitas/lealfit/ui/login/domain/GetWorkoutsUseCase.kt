@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetWorkoutsUseCase {
 
-    suspend fun execute(): Flow<StateUI<Workout>>
+    suspend fun execute(): Flow<StateUI<List<Workout>>>
 }

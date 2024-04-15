@@ -18,6 +18,7 @@ class RegisterRepositoryImpl @Inject constructor(private val auth: FirebaseAuth)
            emit(StateUI.Processing("Wait..."))
            auth.createUserWithEmailAndPassword(account.email, account.password).await()
            emit(StateUI.Processed(account))
+           auth.signOut()
        }.catch {  emit(StateUI.Error("Error in Signup"))}
     }
 }

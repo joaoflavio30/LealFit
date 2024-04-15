@@ -38,5 +38,24 @@
         android:id="@+id/workoutFragment"
         android:name="com.joaoflaviofreitas.lealfit.ui.login.WorkoutFragment"
         android:label="fragment_workout"
-        tools:layout="@layout/fragment_workout" />
+        tools:layout="@layout/fragment_workout" >
+        <action
+            android:id="@+id/action_workoutFragment_to_workoutDetailsFragment"
+            app:destination="@id/workoutDetailsFragment" />
+        <action
+            android:id="@+id/action_workoutFragment_to_addWorkoutFragment"
+            app:destination="@id/addWorkoutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addExerciseFragment"
+        android:name="com.joaoflaviofreitas.lealfit.ui.login.AddExerciseFragment"
+        android:label="AddExerciseFragment" />
+    <fragment
+        android:id="@+id/addWorkoutFragment"
+        android:name="com.joaoflaviofreitas.lealfit.ui.login.AddWorkoutFragment"
+        android:label="AddWorkoutFragment" />
+    <fragment
+        android:id="@+id/workoutDetailsFragment"
+        android:name="com.joaoflaviofreitas.lealfit.ui.login.WorkoutDetailsFragment"
+        android:label="WorkoutDetailsFragment" />
 </navigation>

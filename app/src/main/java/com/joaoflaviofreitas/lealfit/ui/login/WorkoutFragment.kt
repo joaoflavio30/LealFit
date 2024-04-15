@@ -12,7 +12,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.joaoflaviofreitas.lealfit.databinding.FragmentWorkoutBinding
+import com.joaoflaviofreitas.lealfit.ui.login.adapters.WorkoutAdapter
+import com.joaoflaviofreitas.lealfit.ui.login.domain.model.Workout
 import com.joaoflaviofreitas.lealfit.ui.login.model.StateUI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +28,7 @@ class WorkoutFragment: Fragment() {
     private val viewModel: WorkoutViewModel by viewModels()
     private var _binding: FragmentWorkoutBinding? = null
     private val binding get() = _binding!!
+    private lateinit var workoutAdapter: WorkoutAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +43,22 @@ class WorkoutFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setClickListeners()
         observeList()
+        setupAdapters()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getWorkouts()
+    }
+
+    private fun setupAdapters() {
+        workoutAdapter = WorkoutAdapter { navigateToWorkoutDetailsFragment() }
+        binding.rv.adapter = workoutAdapter
+    }
+
+    private fun navigateToWorkoutDetailsFragment() {
+        val action = WorkoutFragmentDirections.actionWorkoutFragmentToWorkoutDetailsFragment()
+        findNavController().navigate(action)
     }
 
     private fun observeList() {
@@ -50,7 +70,9 @@ class WorkoutFragment: Fragment() {
                             is StateUI.Processed -> {
                                 withContext(Dispatchers.Main) {
                                     binding.pb.isGone = true
-                                    binding.thereAreNoExercicies.isVisible = result.data.exercises.isEmpty()
+                                    binding.thereAreNoExercicies.isVisible = result.data.isEmpty()
+                                    submitList(result.data)
+                                    Log.d("teste","${result.data}")
                                 }
                             }
                             is StateUI.Processing -> { withContext(Dispatchers.Main) {
@@ -58,7 +80,11 @@ class WorkoutFragment: Fragment() {
                             }
                             }
                             is StateUI.Error -> { }
-                            is StateUI.Idle -> {}
+                            is StateUI.Idle -> {
+                                withContext(Dispatchers.Main) {
+                                    binding.pb.isGone = true
+                                }
+                            }
                         }
 
                     }
@@ -67,7 +93,18 @@ class WorkoutFragment: Fragment() {
         }
     }
 
+    private fun submitList(workouts: List<Workout>) {
+        workoutAdapter.submitList(workouts)
+    }
+
     private fun setClickListeners() {
-        TODO("Not yet implemented")
+        binding.fab.setOnClickListener {
+            navigateToAddWorkoutFragment()
+        }
+    }
+
+    private fun navigateToAddWorkoutFragment() {
+        val action = WorkoutFragmentDirections.actionWorkoutFragmentToAddWorkoutFragment()
+        findNavController().navigate(action)
     }
 }

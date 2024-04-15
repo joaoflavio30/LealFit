@@ -24,4 +24,6 @@
     <string name="i_already_have_an_account">I already have an account</string>
     <string name="welcome_to_lealfit">WELCOME TO LEALFIT\n</string>
     <string name="workouts">Workouts</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
