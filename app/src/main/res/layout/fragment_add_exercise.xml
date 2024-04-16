@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ui.login.AddExerciseFragment">
+    tools:context=".presentation.add_exercicie.AddExerciseFragment">
 
 
     <com.google.android.material.appbar.MaterialToolbar

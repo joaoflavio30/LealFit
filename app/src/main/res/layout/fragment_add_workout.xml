@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ui.login.AddWorkoutFragment"
+    tools:context=".presentation.add_workout.AddWorkoutFragment"
     tools:ignore="HardcodedText, TextContrastCheck">
 
 

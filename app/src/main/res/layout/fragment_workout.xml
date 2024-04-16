@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:ignore="HardcodedText"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.login.WorkoutFragment">
+    tools:context=".presentation.home.WorkoutFragment">
 
     <TextView
         android:id="@+id/workout_title"
