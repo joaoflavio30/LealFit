@@ -2,6 +2,7 @@ package com.joaoflaviofreitas.lealfit.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +13,7 @@ import com.joaoflaviofreitas.lealfit.databinding.ExerciseItemBinding
 import com.joaoflaviofreitas.lealfit.domain.model.Exercise
 
 
-class ExerciseAdapter(private val clickItem: (Exercise) -> Unit) :
+class ExerciseAdapter(private val clickThreeDots: (Exercise, ImageView) -> Unit) :
     ListAdapter<Exercise, ExerciseAdapter.ViewHolder>(DiffCallback) {
 
     inner class ViewHolder(private val binding: ExerciseItemBinding) :
@@ -26,8 +27,8 @@ class ExerciseAdapter(private val clickItem: (Exercise) -> Unit) :
                 ).transition(
                     DrawableTransitionOptions.withCrossFade(),
                 ).into(binding.image)
-            binding.root.setOnClickListener {
-                clickItem(exercise)
+            binding.exerciseThreeDots.setOnClickListener {
+                clickThreeDots(exercise, binding.exerciseThreeDots)
             }
         }
     }

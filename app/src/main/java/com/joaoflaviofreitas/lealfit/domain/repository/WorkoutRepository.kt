@@ -7,4 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface WorkoutRepository {
 
     suspend fun getWorkouts(): Flow<StateUI<List<Workout>>>
+
+    suspend fun signOut(): Flow<StateUI<String>>
 }

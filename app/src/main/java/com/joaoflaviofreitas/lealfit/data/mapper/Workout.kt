@@ -13,8 +13,7 @@ fun mapWorkoutDTO(workoutDTO: WorkoutDTO): Workout = Workout(
     name = workoutDTO.name ?: "",
     description = workoutDTO.description ?: "",
     date = workoutDTO.date?.toDate()?.formatDate() ?: "",
-    exercises = workoutDTO.exercises?.map {
-        mapExerciseDTO(it) } ?: emptyList(),
+    exercises = workoutDTO.exercises?.map { mapExerciseDTO(it) }?.toMutableList() ?: mutableListOf(),
     uid = workoutDTO.uid ?: ""
 )
 

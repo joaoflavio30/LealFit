@@ -3,7 +3,6 @@ package com.joaoflaviofreitas.lealfit.data.db.repository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
-import com.google.firebase.storage.FirebaseStorage
 import com.joaoflaviofreitas.lealfit.data.db.model.WorkoutDTO
 import com.joaoflaviofreitas.lealfit.domain.repository.WorkoutRepository
 import com.joaoflaviofreitas.lealfit.domain.model.Workout
@@ -16,8 +15,7 @@ import javax.inject.Inject
 
 class WorkoutRepositoryImpl @Inject constructor(
     private val mapWorkoutDTO: (WorkoutDTO) -> Workout,
-    private val db: FirebaseFirestore, private val storage: FirebaseStorage,
-    private val auth: FirebaseAuth
+    private val db: FirebaseFirestore, private val auth: FirebaseAuth
 ) : WorkoutRepository {
     override suspend fun getWorkouts(): Flow<StateUI<List<Workout>>> {
         return flow {
@@ -36,6 +34,14 @@ class WorkoutRepositoryImpl @Inject constructor(
             emit(StateUI.Processed(workouts))
         }.catch { e ->
             emit(StateUI.Error(e.message.toString()))
+        }
+    }
+
+    override suspend fun signOut(): Flow<StateUI<String>> {
+        return flow {
+            emit(StateUI.Processing("Wait..."))
+            auth.signOut()
+            emit(StateUI.Processed("Success logout"))
         }
     }
 

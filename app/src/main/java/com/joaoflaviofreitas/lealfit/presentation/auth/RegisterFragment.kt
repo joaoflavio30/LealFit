@@ -1,7 +1,6 @@
 package com.joaoflaviofreitas.lealfit.presentation.auth
 
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -54,7 +53,6 @@ class RegisterFragment: Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.uiState.collect {result ->
-                        Log.d("teste","$result")
                         when (result) {
                             is StateUI.Processed -> {
                                 withContext(Dispatchers.Main) {
@@ -88,7 +86,7 @@ class RegisterFragment: Fragment() {
       viewModel.signup(Account(binding.email.text.toString(), binding.firstPassword.text.toString()))
     }
 
-    fun checkFields(): Boolean {
+    private fun checkFields(): Boolean {
         val email = binding.email.text.toString()
         val password = binding.firstPassword.text.toString()
         val confirmPassword = binding.secondPassword.text.toString()

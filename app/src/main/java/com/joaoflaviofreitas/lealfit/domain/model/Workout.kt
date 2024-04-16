@@ -9,5 +9,5 @@ data class Workout(
     val name: String,
     val date: String,
     val description: String? = null,
-    val exercises: List<Exercise>? = null
+    val exercises: MutableList<Exercise>? = null
 ): Parcelable

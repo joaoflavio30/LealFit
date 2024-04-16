@@ -10,5 +10,5 @@ data class WorkoutDTO(
     val name: String? = null,
     val description: String? = null,
     val date: Timestamp? = null,
-    val exercises: List<ExerciseDTO>? = null
+    var exercises: List<ExerciseDTO>? = null
 ) : Parcelable

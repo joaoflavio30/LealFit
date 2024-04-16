@@ -1,7 +1,6 @@
 package com.joaoflaviofreitas.lealfit.presentation.auth
 
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -95,7 +94,6 @@ class LoginFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.uiState.collect {result ->
-                        Log.d("teste","$result")
                         when (result) {
                             is StateUI.Processed -> {
                                 withContext(Dispatchers.Main) {

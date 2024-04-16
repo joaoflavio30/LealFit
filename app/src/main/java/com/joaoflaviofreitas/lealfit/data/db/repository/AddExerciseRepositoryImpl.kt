@@ -28,7 +28,7 @@ class AddExerciseRepositoryImpl @Inject constructor(
         return flow {
             emit(StateUI.Processing("Wait..."))
             val exerciseDTO = mapExercise(exercise)
-            val exerciseHashMap = hashMapOf(
+            hashMapOf(
                 "name" to exerciseDTO.name,
                 "observations" to exerciseDTO.observations,
                 "image" to exerciseDTO.image
@@ -52,7 +52,10 @@ class AddExerciseRepositoryImpl @Inject constructor(
     override suspend fun saveImage(uri: Uri): Flow<StateUI<String>> {
         return flow {
             emit(StateUI.Processing("Wait..."))
-            val uploadTask = storage.reference.child("images/${System.currentTimeMillis()}")
+            val storageRef = storage.reference
+            val imagesRef = storageRef.child("${System.currentTimeMillis()}")
+            storageRef.child("images/${System.currentTimeMillis()}")
+            val uploadTask = imagesRef
                 .putFile(uri).await()
             val url = uploadTask.metadata?.reference?.downloadUrl?.await()
             emit(StateUI.Processed(url.toString()))
