@@ -71,7 +71,6 @@
                     android:layout_height="wrap_content"
                     android:hint="Type the workout name"
                     android:inputType="text"
-                    android:textColor="@color/white"
                     android:textColorHint="@color/gray"
                     android:textSize="14sp" />
 
@@ -109,7 +108,6 @@
                     android:gravity="top"
                     android:hint="Type your description about the workout"
                     android:inputType="textMultiLine"
-                    android:textColor="@color/white"
                     android:textColorHint="@color/gray" />
 
             </com.google.android.material.textfield.TextInputLayout>

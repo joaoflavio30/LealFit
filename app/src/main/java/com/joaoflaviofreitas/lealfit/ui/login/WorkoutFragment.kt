@@ -52,12 +52,13 @@ class WorkoutFragment: Fragment() {
     }
 
     private fun setupAdapters() {
-        workoutAdapter = WorkoutAdapter { navigateToWorkoutDetailsFragment() }
+        workoutAdapter = WorkoutAdapter {workout ->
+            navigateToWorkoutDetailsFragment(workout) }
         binding.rv.adapter = workoutAdapter
     }
 
-    private fun navigateToWorkoutDetailsFragment() {
-        val action = WorkoutFragmentDirections.actionWorkoutFragmentToWorkoutDetailsFragment()
+    private fun navigateToWorkoutDetailsFragment(workout: Workout) {
+        val action = WorkoutFragmentDirections.actionWorkoutFragmentToWorkoutDetailsFragment(workout)
         findNavController().navigate(action)
     }
 
@@ -79,7 +80,11 @@ class WorkoutFragment: Fragment() {
                                 binding.pb.isGone = false
                             }
                             }
-                            is StateUI.Error -> { }
+                            is StateUI.Error -> {withContext(Dispatchers.Main) {
+                                binding.pb.isGone = true
+                                binding.thereAreNoExercicies.isVisible = true
+                                binding.thereAreNoExercicies.text = result.message
+                            } }
                             is StateUI.Idle -> {
                                 withContext(Dispatchers.Main) {
                                     binding.pb.isGone = true

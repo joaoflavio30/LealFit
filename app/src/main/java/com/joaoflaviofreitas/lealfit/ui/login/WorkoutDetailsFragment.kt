@@ -1,60 +1,115 @@
 package com.joaoflaviofreitas.lealfit.ui.login
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.joaoflaviofreitas.lealfit.R
+import com.joaoflaviofreitas.lealfit.databinding.FragmentWorkoutDetailsBinding
+import com.joaoflaviofreitas.lealfit.ui.login.adapters.ExerciseAdapter
+import com.joaoflaviofreitas.lealfit.ui.login.domain.model.Exercise
+import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [WorkoutDetailsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class WorkoutDetailsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
+    private var _binding: FragmentWorkoutDetailsBinding? = null
+    private val binding get() = _binding!!
+
+    private val args: WorkoutDetailsFragmentArgs by navArgs()
+    private lateinit var exerciseAdapter: ExerciseAdapter
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentWorkoutDetailsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setClickListeners()
+        setupAdapter()
+        setData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        submitExercises()
+    }
+
+    private fun submitExercises() {
+        exerciseAdapter.submitList(args.Workout.exercises)
+    }
+
+    private fun setupAdapter() {
+        exerciseAdapter = ExerciseAdapter { exercise ->
+            navigateToAddExerciseFragment(exercise)
+        }
+        binding.rv.adapter = exerciseAdapter
+        binding.rv.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun setData() {
+        binding.tb.setTitle(args.Workout.name)
+    }
+
+    private fun setClickListeners() {
+        binding.threeDots.setOnClickListener {
+            openDropdownMenu()
+        }
+        binding.tb.setNavigationOnClickListener {
+            popBackStack()
+        }
+        binding.fab.setOnClickListener{
+            navigateToAddExerciseFragment(null)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_workout_details, container, false)
+    private fun navigateToAddExerciseFragment(exercise: Exercise?) {
+        val action = WorkoutDetailsFragmentDirections.actionWorkoutDetailsFragmentToAddExerciseFragment(args.Workout.uid?:"",exercise)
+        findNavController().navigate(action)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment WorkoutDetailsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            WorkoutDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun popBackStack() {
+        findNavController().popBackStack()
+    }
+
+    private fun openDropdownMenu() {
+        val imageView = binding.threeDots
+        val popupMenu = PopupMenu(context, imageView)
+        popupMenu.inflate(R.menu.top_app_bar)
+
+
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.edit -> {
+                    // Ação para o item 1
+                    true
                 }
+
+                R.id.delete -> {
+                    // Ação para o item 2
+                    true
+                }
+                // Adicione casos para outros itens de menu conforme necessário
+                else -> false
             }
+        }
+        popupMenu.show()
+    }
+
+    private fun showToastLengthLong(text: String) {
+        Toast.makeText(activity, text, Toast.LENGTH_LONG)
+            .show()
     }
 }

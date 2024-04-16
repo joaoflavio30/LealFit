@@ -13,14 +13,15 @@ fun mapWorkoutDTO(workoutDTO: WorkoutDTO): Workout = Workout(
     name = workoutDTO.name ?: "",
     description = workoutDTO.description ?: "",
     date = workoutDTO.date?.toDate()?.formatDate() ?: "",
-    exercises = workoutDTO.exercises?.map { mapExerciseDTO(it) } ?: emptyList(),
+    exercises = workoutDTO.exercises?.map {
+        mapExerciseDTO(it) } ?: emptyList(),
     uid = workoutDTO.uid ?: ""
 )
 
 fun mapExerciseDTO(exerciseDTO: ExerciseDTO): Exercise = Exercise(
-    name = exerciseDTO.name,
-    image = exerciseDTO.image,
-    observations = exerciseDTO.observations
+    name = exerciseDTO.name?: "",
+    image = exerciseDTO.image?: "",
+    observations = exerciseDTO.observations?: ""
 )
 
 fun mapWorkout(workout: Workout): WorkoutDTO {

@@ -3,7 +3,9 @@ package com.joaoflaviofreitas.lealfit.ui.login.data.di
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.joaoflaviofreitas.lealfit.ui.login.data.db.AddExerciseRepositoryImpl
 import com.joaoflaviofreitas.lealfit.ui.login.data.db.WorkoutRepositoryImpl
+import com.joaoflaviofreitas.lealfit.ui.login.data.mapper.mapExercise
 import com.joaoflaviofreitas.lealfit.ui.login.data.mapper.mapExerciseDTO
 import com.joaoflaviofreitas.lealfit.ui.login.data.mapper.mapWorkout
 import com.joaoflaviofreitas.lealfit.ui.login.data.mapper.mapWorkoutDTO
@@ -12,6 +14,7 @@ import com.joaoflaviofreitas.lealfit.ui.login.data.model.WorkoutDTO
 import com.joaoflaviofreitas.lealfit.ui.login.data.repository.AddWorkoutRepositoryImpl
 import com.joaoflaviofreitas.lealfit.ui.login.data.repository.LoginRepositoryImpl
 import com.joaoflaviofreitas.lealfit.ui.login.data.repository.RegisterRepositoryImpl
+import com.joaoflaviofreitas.lealfit.ui.login.domain.AddExerciseRepository
 import com.joaoflaviofreitas.lealfit.ui.login.domain.AddWorkoutRepository
 import com.joaoflaviofreitas.lealfit.ui.login.domain.LoginRepository
 import com.joaoflaviofreitas.lealfit.ui.login.domain.RegisterRepository
@@ -77,4 +80,17 @@ object DataModule {
         auth: FirebaseAuth
     ): AddWorkoutRepository =
         AddWorkoutRepositoryImpl(makeWorkoutMapper(), db, auth)
+
+    private fun makeExerciseMapper(): (Exercise) -> ExerciseDTO = { exercise ->
+        mapExercise(exercise)
+    }
+
+    @Provides
+    @Singleton
+    fun providesAddExerciseRepository(
+        db: FirebaseFirestore,
+        auth: FirebaseAuth,
+        storage: FirebaseStorage
+    ): AddExerciseRepository =
+        AddExerciseRepositoryImpl(makeExerciseMapper(), db, auth, storage)
 }

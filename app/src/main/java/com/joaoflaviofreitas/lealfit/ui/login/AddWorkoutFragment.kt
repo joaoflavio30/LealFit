@@ -7,10 +7,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.joaoflaviofreitas.lealfit.databinding.FragmentAddWorkoutBinding
 import com.joaoflaviofreitas.lealfit.ui.login.domain.model.Workout
+import com.joaoflaviofreitas.lealfit.ui.login.model.StateUI
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -36,6 +44,7 @@ class AddWorkoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setClickListeners()
+        observeResponse()
     }
 
     private fun setClickListeners() {
@@ -46,6 +55,13 @@ class AddWorkoutFragment : Fragment() {
         binding.dateBtn.setOnClickListener {
             openCalendar()
         }
+        binding.tb.setNavigationOnClickListener {
+            popBackStack()
+        }
+    }
+
+    private fun popBackStack() {
+        findNavController().popBackStack()
     }
 
     private fun openCalendar() {
@@ -74,6 +90,39 @@ class AddWorkoutFragment : Fragment() {
             description = binding.inputDescription.text.toString(),
         )
         viewModel.createWorkout(workout)
+    }
+
+    private fun observeResponse() {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.uiState.collect { result ->
+                        when (result) {
+                            is StateUI.Processed -> {
+                                withContext(Dispatchers.Main) {
+                                    navigateToWorkoutFragment()
+                                }
+                            }
+
+                            is StateUI.Processing -> {
+                                withContext(Dispatchers.Main) {
+                                    showToastLengthLong(result.message)
+                                }
+                            }
+
+                            is StateUI.Error -> {}
+                            is StateUI.Idle -> {}
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun navigateToWorkoutFragment() {
+        val action = AddWorkoutFragmentDirections.actionAddWorkoutFragmentToWorkoutFragment()
+        findNavController().navigate(action)
     }
 
     private fun checkFields(): Boolean {

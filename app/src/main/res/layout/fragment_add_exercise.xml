@@ -77,9 +77,8 @@
                     android:id="@+id/input_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Type the exercise name"
+                    android:hint="@string/type_the_exercise_name"
                     android:inputType="text"
-                    android:textColor="@color/white"
                     android:textColorHint="@color/gray"
                     android:textSize="14sp" />
 
@@ -115,9 +114,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
                     android:gravity="top"
-                    android:hint="Type your observations about the exercise"
+                    android:hint="@string/type_your_observations_about_the_exercise"
                     android:inputType="textMultiLine"
-                    android:textColor="@color/white"
                     android:textColorHint="@color/gray" />
 
             </com.google.android.material.textfield.TextInputLayout>

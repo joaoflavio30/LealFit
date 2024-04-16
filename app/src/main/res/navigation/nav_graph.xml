@@ -49,13 +49,36 @@
     <fragment
         android:id="@+id/addExerciseFragment"
         android:name="com.joaoflaviofreitas.lealfit.ui.login.AddExerciseFragment"
-        android:label="AddExerciseFragment" />
+        android:label="AddExerciseFragment" >
+        <argument
+            android:name="workoutUid"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_addExerciseFragment_to_workoutFragment"
+            app:destination="@id/workoutFragment" />
+        <argument
+            android:name="exercise"
+            app:argType="com.joaoflaviofreitas.lealfit.ui.login.domain.model.Exercise"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/addWorkoutFragment"
         android:name="com.joaoflaviofreitas.lealfit.ui.login.AddWorkoutFragment"
-        android:label="AddWorkoutFragment" />
+        android:label="AddWorkoutFragment" >
+        <action
+            android:id="@+id/action_addWorkoutFragment_to_workoutFragment"
+            app:destination="@id/workoutFragment" />
+    </fragment>
     <fragment
         android:id="@+id/workoutDetailsFragment"
         android:name="com.joaoflaviofreitas.lealfit.ui.login.WorkoutDetailsFragment"
-        android:label="WorkoutDetailsFragment" />
+        android:label="WorkoutDetailsFragment" >
+        <argument
+            android:name="Workout"
+            app:argType="com.joaoflaviofreitas.lealfit.ui.login.domain.model.Workout" />
+        <action
+            android:id="@+id/action_workoutDetailsFragment_to_addExerciseFragment"
+            app:destination="@id/addExerciseFragment" />
+    </fragment>
 </navigation>

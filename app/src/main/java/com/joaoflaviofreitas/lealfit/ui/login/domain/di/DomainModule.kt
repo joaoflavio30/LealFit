@@ -1,6 +1,8 @@
 package com.joaoflaviofreitas.lealfit.ui.login.domain.di
 
-import com.joaoflaviofreitas.lealfit.ui.login.data.repository.AddWorkoutRepositoryImpl
+import com.joaoflaviofreitas.lealfit.ui.login.domain.AddExerciseRepository
+import com.joaoflaviofreitas.lealfit.ui.login.domain.AddExerciseUseCase
+import com.joaoflaviofreitas.lealfit.ui.login.domain.AddExerciseUseCaseImpl
 import com.joaoflaviofreitas.lealfit.ui.login.domain.AddWorkoutRepository
 import com.joaoflaviofreitas.lealfit.ui.login.domain.AddWorkoutUseCase
 import com.joaoflaviofreitas.lealfit.ui.login.domain.AddWorkoutUseCaseImpl
@@ -12,6 +14,8 @@ import com.joaoflaviofreitas.lealfit.ui.login.domain.LoginUseCaseImpl
 import com.joaoflaviofreitas.lealfit.ui.login.domain.RegisterRepository
 import com.joaoflaviofreitas.lealfit.ui.login.domain.RegisterUseCase
 import com.joaoflaviofreitas.lealfit.ui.login.domain.RegisterUseCaseImpl
+import com.joaoflaviofreitas.lealfit.ui.login.domain.SaveImageUseCase
+import com.joaoflaviofreitas.lealfit.ui.login.domain.SaveImageUseCaseImpl
 import com.joaoflaviofreitas.lealfit.ui.login.domain.WorkoutRepository
 import dagger.Module
 import dagger.Provides
@@ -36,10 +40,21 @@ object DomainModule {
     @Provides
     @Singleton
     fun providesGetWorkoutsUseCase(workoutRepository: WorkoutRepository): GetWorkoutsUseCase =
-       GetWorkoutsUseCaseImpl(workoutRepository)
+        GetWorkoutsUseCaseImpl(workoutRepository)
 
     @Provides
     @Singleton
     fun providesAddWorkoutUseCase(addWorkoutRepository: AddWorkoutRepository): AddWorkoutUseCase =
-       AddWorkoutUseCaseImpl(addWorkoutRepository)
+        AddWorkoutUseCaseImpl(addWorkoutRepository)
+
+    @Provides
+    @Singleton
+    fun providesAddExerciseUseCase(addExerciseRepository: AddExerciseRepository): AddExerciseUseCase =
+
+        AddExerciseUseCaseImpl(addExerciseRepository)
+
+    @Provides
+    @Singleton
+    fun providesSaveImageUseCase(addExerciseRepository: AddExerciseRepository): SaveImageUseCase =
+        SaveImageUseCaseImpl(addExerciseRepository)
 }
