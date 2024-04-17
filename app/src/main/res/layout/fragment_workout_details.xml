@@ -4,28 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ui.login.AddWorkoutFragment"
+    tools:context=".presentation.add_workout.AddWorkoutFragment"
     tools:ignore="HardcodedText, TextContrastCheck">
 
 
     <com.google.android.material.appbar.MaterialToolbar
-        app:menu="@menu/top_app_bar"
         android:id="@+id/tb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary"
+        app:titleCentered="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         style="@style/Widget.MaterialComponents.Toolbar.Primary"
         app:navigationIcon="@drawable/baseline_arrow_back_24">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text=""
-            android:textColor="@color/white" />
+        <ImageView
+            android:id="@+id/three_dots"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/three_dots"
+            android:layout_gravity="end"
+            android:layout_marginEnd="20dp"
+            />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
@@ -49,6 +51,30 @@
         android:layout_marginTop="10dp"
         tools:listitem="@layout/exercise_item"
         />
+
+    <ProgressBar
+        android:id="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:elevation="8dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rv" />
+
+    <TextView
+        android:id="@+id/there_are_no_exercises"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rv"
+        android:text="There are no exercises."/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

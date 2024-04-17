@@ -2,12 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/welcomeFragment">
+    android:id="@+id/nav_graph">
 
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.joaoflaviofreitas.lealfit.ui.login.WelcomeFragment"
+        android:name="com.joaoflaviofreitas.lealfit.presentation.auth.WelcomeFragment"
         android:label="fragment_welcome"
         tools:layout="@layout/fragment_welcome" >
         <action
@@ -19,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.joaoflaviofreitas.lealfit.ui.login.RegisterFragment"
+        android:name="com.joaoflaviofreitas.lealfit.presentation.auth.RegisterFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
@@ -27,16 +26,19 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.joaoflaviofreitas.lealfit.ui.login.LoginFragment"
+        android:name="com.joaoflaviofreitas.lealfit.presentation.auth.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_workoutFragment"
             app:destination="@id/workoutFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/workoutFragment"
-        android:name="com.joaoflaviofreitas.lealfit.ui.login.WorkoutFragment"
+        android:name="com.joaoflaviofreitas.lealfit.presentation.home.WorkoutFragment"
         android:label="fragment_workout"
         tools:layout="@layout/fragment_workout" >
         <action
@@ -45,17 +47,46 @@
         <action
             android:id="@+id/action_workoutFragment_to_addWorkoutFragment"
             app:destination="@id/addWorkoutFragment" />
+        <action
+            android:id="@+id/action_workoutFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/addExerciseFragment"
-        android:name="com.joaoflaviofreitas.lealfit.ui.login.AddExerciseFragment"
-        android:label="AddExerciseFragment" />
+        android:name="com.joaoflaviofreitas.lealfit.presentation.add_exercicie.AddExerciseFragment"
+        android:label="AddExerciseFragment" >
+        <argument
+            android:name="workoutUid"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_addExerciseFragment_to_workoutFragment"
+            app:destination="@id/workoutFragment" />
+        <argument
+            android:name="exercise"
+            app:argType="com.joaoflaviofreitas.lealfit.domain.model.Exercise"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/addWorkoutFragment"
-        android:name="com.joaoflaviofreitas.lealfit.ui.login.AddWorkoutFragment"
-        android:label="AddWorkoutFragment" />
+        android:name="com.joaoflaviofreitas.lealfit.presentation.add_workout.AddWorkoutFragment"
+        android:label="AddWorkoutFragment" >
+        <action
+            android:id="@+id/action_addWorkoutFragment_to_workoutFragment"
+            app:destination="@id/workoutFragment" />
+    </fragment>
     <fragment
         android:id="@+id/workoutDetailsFragment"
-        android:name="com.joaoflaviofreitas.lealfit.ui.login.WorkoutDetailsFragment"
-        android:label="WorkoutDetailsFragment" />
+        android:name="com.joaoflaviofreitas.lealfit.presentation.workout_details.WorkoutDetailsFragment"
+        android:label="WorkoutDetailsFragment" >
+        <argument
+            android:name="Workout"
+            app:argType="com.joaoflaviofreitas.lealfit.domain.model.Workout" />
+        <action
+            android:id="@+id/action_workoutDetailsFragment_to_addExerciseFragment"
+            app:destination="@id/addExerciseFragment" />
+        <action
+            android:id="@+id/action_workoutDetailsFragment_to_workoutFragment"
+            app:destination="@id/workoutFragment" />
+    </fragment>
 </navigation>
