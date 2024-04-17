@@ -95,26 +95,24 @@ class AddWorkoutFragment : Fragment() {
     private fun observeResponse() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.uiState.collect { result ->
-                        when (result) {
-                            is StateUI.Processed -> {
-                                withContext(Dispatchers.Main) {
-                                    navigateToWorkoutFragment()
-                                }
+                viewModel.uiState.collect { result ->
+                    when (result) {
+                        is StateUI.Processed -> {
+                            withContext(Dispatchers.Main) {
+                                navigateToWorkoutFragment()
                             }
-
-                            is StateUI.Processing -> {
-                                withContext(Dispatchers.Main) {
-                                    showToastLengthLong(result.message)
-                                }
-                            }
-
-                            is StateUI.Error -> {}
-                            is StateUI.Idle -> {}
                         }
 
+                        is StateUI.Processing -> {
+                            withContext(Dispatchers.Main) {
+                                showToastLengthLong(result.message)
+                            }
+                        }
+
+                        is StateUI.Error -> {}
+                        is StateUI.Idle -> {}
                     }
+
                 }
             }
         }

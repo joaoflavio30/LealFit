@@ -39,13 +39,22 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setClickListeners()
+        observeResponse()
     }
 
     private fun setClickListeners() {
         binding.loginButton.setOnClickListener {
             loginIfFieldsAreValid()
         }
-        observeResponse()
+        binding.registerButton.setOnClickListener {
+            navigateToRegisterFragment()
+        }
+
+    }
+
+    private fun navigateToRegisterFragment() {
+        val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
+        findNavController().navigate(action)
     }
 
     private fun loginIfFieldsAreValid() {
@@ -92,22 +101,22 @@ class LoginFragment : Fragment() {
     private fun observeResponse() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.uiState.collect {result ->
-                        when (result) {
-                            is StateUI.Processed -> {
-                                withContext(Dispatchers.Main) {
-                                    navigateToWorkoutFragment()
-                                }
+                viewModel.uiState.collect { result ->
+                    when (result) {
+                        is StateUI.Processed -> {
+                            withContext(Dispatchers.Main) {
+                                navigateToWorkoutFragment()
                             }
-                            is StateUI.Processing -> { withContext(Dispatchers.Main) {
-                                showToastLengthLong(result.message)
-                            }
-                            }
-                            is StateUI.Error -> { }
-                            is StateUI.Idle -> {}
                         }
 
+                        is StateUI.Processing -> {
+                            withContext(Dispatchers.Main) {
+                                showToastLengthLong(result.message)
+                            }
+                        }
+
+                        is StateUI.Error -> {}
+                        is StateUI.Idle -> {}
                     }
                 }
             }

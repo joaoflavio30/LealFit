@@ -30,4 +30,6 @@
     <string name="type_the_exercise_name">Type the exercise name</string>
     <string name="name">Name</string>
     <string name="workout_edit">Workout Edit</string>
+    <string name="enter_now_to_save_your_evolution">Enter now to save your evolution</string>
+    <string name="type_your_best_email">Type your best Email</string>
 </resources>

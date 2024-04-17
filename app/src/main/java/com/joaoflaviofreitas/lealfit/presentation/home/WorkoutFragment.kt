@@ -68,32 +68,33 @@ class WorkoutFragment : Fragment() {
     private fun observeList() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.uiState.collect { result ->
-                        when (result) {
-                            is StateUI.Processed -> {
-                                withContext(Dispatchers.Main) {
-                                    binding.pb.isGone = true
-                                    binding.thereAreNoExercicies.isVisible = result.data.isEmpty()
-                                    submitList(result.data)
-                                }
+                viewModel.uiState.collect { result ->
+                    when (result) {
+                        is StateUI.Processed -> {
+                            withContext(Dispatchers.Main) {
+                                binding.pb.isGone = true
+                                binding.thereAreNoExercicies.isVisible = result.data.isEmpty()
+                                submitList(result.data)
                             }
-                            is StateUI.Processing -> {
-                                withContext(Dispatchers.Main) {
-                                    binding.pb.isGone = false
-                                }
+                        }
+
+                        is StateUI.Processing -> {
+                            withContext(Dispatchers.Main) {
+                                binding.pb.isGone = false
                             }
-                            is StateUI.Error -> {
-                                withContext(Dispatchers.Main) {
-                                    binding.pb.isGone = true
-                                    binding.thereAreNoExercicies.isVisible = true
-                                    binding.thereAreNoExercicies.text = result.message
-                                }
+                        }
+
+                        is StateUI.Error -> {
+                            withContext(Dispatchers.Main) {
+                                binding.pb.isGone = true
+                                binding.thereAreNoExercicies.isVisible = true
+                                binding.thereAreNoExercicies.text = result.message
                             }
-                            is StateUI.Idle -> {
-                                withContext(Dispatchers.Main) {
-                                    binding.pb.isGone = true
-                                }
+                        }
+
+                        is StateUI.Idle -> {
+                            withContext(Dispatchers.Main) {
+                                binding.pb.isGone = true
                             }
                         }
                     }
@@ -142,35 +143,33 @@ class WorkoutFragment : Fragment() {
     private fun signOut() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.signOut().collect { result ->
-                        when (result) {
-                            is StateUI.Processed -> {
-                                withContext(Dispatchers.Main) {
-                                    navigateToWelcomeFragment()
-                                }
-                            }
-
-                            is StateUI.Processing -> {
-                                withContext(Dispatchers.Main) {
-                                    binding.pb.isGone = false
-                                }
-                            }
-
-                            is StateUI.Error -> {
-                                withContext(Dispatchers.Main) {
-                                    binding.pb.isGone = true
-                                }
-                            }
-
-                            is StateUI.Idle -> {
-                                withContext(Dispatchers.Main) {
-                                    binding.pb.isGone = true
-                                }
+                viewModel.signOut().collect { result ->
+                    when (result) {
+                        is StateUI.Processed -> {
+                            withContext(Dispatchers.Main) {
+                                navigateToWelcomeFragment()
                             }
                         }
 
+                        is StateUI.Processing -> {
+                            withContext(Dispatchers.Main) {
+                                binding.pb.isGone = false
+                            }
+                        }
+
+                        is StateUI.Error -> {
+                            withContext(Dispatchers.Main) {
+                                binding.pb.isGone = true
+                            }
+                        }
+
+                        is StateUI.Idle -> {
+                            withContext(Dispatchers.Main) {
+                                binding.pb.isGone = true
+                            }
+                        }
                     }
+
                 }
             }
         }

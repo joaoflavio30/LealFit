@@ -17,12 +17,11 @@
         app:layout_constraintTop_toTopOf="parent"
         android:textAlignment="center"
         android:textColor="@color/primary"
-        android:text="@string/get_registered_now_to_save_your_evolution"
+        android:text="@string/enter_now_to_save_your_evolution"
         android:layout_marginHorizontal="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:scaleType="centerCrop"/>
 
-    <!-- Campo de entrada de e-mail -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -49,7 +48,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Campo de entrada de senha -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -76,7 +74,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Botão de login -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/login_button"
         android:layout_width="0dp"
@@ -90,6 +87,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:cornerRadius="20dp"
         android:backgroundTint="@color/primary" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/register_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginHorizontal="100dp"
+        android:text="@string/signup"
+        app:layout_constraintTop_toBottomOf="@id/login_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cornerRadius="20dp"
+        android:backgroundTint="@color/gray_dark" />
 
     <TextView
         app:layout_constraintBottom_toBottomOf="parent"

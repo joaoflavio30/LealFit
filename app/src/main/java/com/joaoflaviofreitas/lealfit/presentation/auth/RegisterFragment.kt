@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class RegisterFragment: Fragment() {
+class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
@@ -39,35 +39,40 @@ class RegisterFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setClickListeners()
+        observeResponse()
     }
 
     private fun setClickListeners() {
         binding.registerButton.setOnClickListener {
             registerIfFieldsAreValid()
         }
-        observeResponse()
+        binding.loginButton.setOnClickListener {
+            navigateToSignIn()
+        }
+
     }
 
     private fun observeResponse() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.uiState.collect {result ->
-                        when (result) {
-                            is StateUI.Processed -> {
-                                withContext(Dispatchers.Main) {
-                                    navigateToSignIn()
-                                }
+                viewModel.uiState.collect { result ->
+                    when (result) {
+                        is StateUI.Processed -> {
+                            withContext(Dispatchers.Main) {
+                                navigateToSignIn()
                             }
-                            is StateUI.Processing -> { withContext(Dispatchers.Main) {
-                                showToastLengthLong(result.message)
-                            }
-                            }
-                            is StateUI.Error -> { }
-                            is StateUI.Idle -> {}
                         }
 
+                        is StateUI.Processing -> {
+                            withContext(Dispatchers.Main) {
+                                showToastLengthLong(result.message)
+                            }
+                        }
+
+                        is StateUI.Error -> {}
+                        is StateUI.Idle -> {}
                     }
+
                 }
             }
         }
@@ -79,11 +84,16 @@ class RegisterFragment: Fragment() {
     }
 
     private fun registerIfFieldsAreValid() {
-        if(checkFields()) registerUser()
+        if (checkFields()) registerUser()
     }
 
     private fun registerUser() {
-      viewModel.signup(Account(binding.email.text.toString(), binding.firstPassword.text.toString()))
+        viewModel.signup(
+            Account(
+                binding.email.text.toString(),
+                binding.firstPassword.text.toString()
+            )
+        )
     }
 
     private fun checkFields(): Boolean {
@@ -97,22 +107,27 @@ class RegisterFragment: Fragment() {
                 binding.email.setError("Enter email address.", null)
                 binding.email.requestFocus()
             }
+
             !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
                 binding.email.setError("Enter valid email address.", null)
                 binding.email.requestFocus()
             }
+
             password.isEmpty() -> {
                 binding.firstPassword.setError("Enter password.", null)
                 binding.firstPassword.requestFocus()
             }
+
             password.length <= 6 -> {
                 binding.firstPassword.setError("Password length must be > 6 characters.", null)
                 binding.firstPassword.requestFocus()
             }
+
             confirmPassword != password -> {
                 binding.secondPassword.setError("Passwords must match.", null)
                 binding.secondPassword.requestFocus()
             }
+
             else -> {
                 valid = true
             }

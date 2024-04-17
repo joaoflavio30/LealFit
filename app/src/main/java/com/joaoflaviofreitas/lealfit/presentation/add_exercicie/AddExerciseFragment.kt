@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -27,6 +28,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.joaoflaviofreitas.lealfit.databinding.FragmentAddExerciseBinding
 import com.joaoflaviofreitas.lealfit.domain.model.Exercise
 import com.joaoflaviofreitas.lealfit.model.StateUI
@@ -40,7 +42,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 @AndroidEntryPoint
-class AddExerciseFragment: Fragment() {
+class AddExerciseFragment : Fragment() {
 
     private val viewModel: AddExerciseViewModel by viewModels()
 
@@ -74,7 +76,7 @@ class AddExerciseFragment: Fragment() {
             popBackStack()
         }
         binding.image.setOnClickListener {
-            if(checkIfUserHasPermission()) {
+            if (checkIfUserHasPermission()) {
                 showImagePickerDialog(requireContext())
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -87,23 +89,24 @@ class AddExerciseFragment: Fragment() {
     private fun observeResponse() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.uiState.collect {result ->
-                        when (result) {
-                            is StateUI.Processed -> {
-                                withContext(Dispatchers.Main) {
-                                    navigateToWorkoutFragment()
-                                }
+                viewModel.uiState.collect { result ->
+                    when (result) {
+                        is StateUI.Processed -> {
+                            withContext(Dispatchers.Main) {
+                                navigateToWorkoutFragment()
                             }
-                            is StateUI.Processing -> { withContext(Dispatchers.Main) {
-                                showToastLengthLong(result.message)
-                            }
-                            }
-                            is StateUI.Error -> { }
-                            is StateUI.Idle -> {}
                         }
 
+                        is StateUI.Processing -> {
+                            withContext(Dispatchers.Main) {
+                                showToastLengthLong(result.message)
+                            }
+                        }
+
+                        is StateUI.Error -> {}
+                        is StateUI.Idle -> {}
                     }
+
                 }
             }
         }
@@ -186,6 +189,7 @@ class AddExerciseFragment: Fragment() {
     private fun popBackStack() {
         findNavController().popBackStack()
     }
+
     private fun createExercise() {
         val exercise = Exercise(
             name = binding.inputName.text.toString(),
@@ -200,8 +204,7 @@ class AddExerciseFragment: Fragment() {
         if (name.isEmpty()) {
             binding.inputName.setError("Enter a name.", null)
             binding.inputName.requestFocus()
-        }
-       else valid = true
+        } else valid = true
 
         return valid
     }
@@ -222,13 +225,15 @@ class AddExerciseFragment: Fragment() {
             ) == PackageManager.PERMISSION_GRANTED -> {
                 true
             }
-            else -> {false}
+
+            else -> {
+                false
+            }
         }
     }
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
-        // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
@@ -236,18 +241,18 @@ class AddExerciseFragment: Fragment() {
             ".jpg",
             storageDir
         ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
             selectedImgUri = absolutePath.toUri()
         }
     }
 
-    private val imageContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {result ->
-        if(result.resultCode == Activity.RESULT_OK) {
-            val uri = result.data?.data
-            selectedImgUri = uri
-            selectedImgUri?.let {
-               binding.image.setImageURI(selectedImgUri)
+    private val imageContract =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data
+                selectedImgUri = uri
+                selectedImgUri?.let {
+                    binding.image.setImageURI(selectedImgUri)
+                }
             }
-        }
         }
 }
