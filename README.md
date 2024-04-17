@@ -11,7 +11,6 @@ Features
 
 Libs
 =============================
-* * *
 *  Usei Coroutines para lidar com tarefas assíncronas juntamente com o Flow, a quais sao totalmente compativeis, o uso do Flow foi escolhido por sua versatilidade e reatividade, o Flow foi usado nesse projeto para que os fragments possam observa-los e de acordo com o estado atual, a UI se comportar de acordo.
 
 *  Usei Cloud FireStore para persistencia de dados via nuvem, com ele + Flow a Ui consegue reagir diretamente a uma mudanca no banco.
