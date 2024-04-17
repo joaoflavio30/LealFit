@@ -9,6 +9,12 @@ Features
 *  Criar, Atualizar, Deletar, e visualizar Treinos e exercicios programados para um rotina de Exercicios que voce determinar (Crud Completo)
 *  Definir uma Imagem para Cada exercício
 
+Design Patterns, Principios, Boas praticas
+=============================
+*  Repository, Adapter, Observer, Singleton, Observable.
+*  Tentei seguir o Solid quando achei conveniente. Inversão de dependência, UseCases.
+*  Flow e Coroutines para uma abordagem de operações assincronas com segurança e clareza.
+
 Libs
 =============================
 *  Usei Coroutines para lidar com tarefas assíncronas juntamente com o Flow, a quais sao totalmente compativeis, o uso do Flow foi escolhido por sua versatilidade e reatividade, o Flow foi usado nesse projeto para que os fragments possam observa-los e de acordo com o estado atual, a UI se comportar de acordo.
